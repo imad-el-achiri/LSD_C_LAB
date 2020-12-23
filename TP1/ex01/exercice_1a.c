@@ -3,28 +3,26 @@
 #define N 10
 
 
-float *descente(float A[N][N], float B[N], int n)
+long double *descente(long double A[N][N], long double B[N], int n)
 {
-  float   *x;
-
-  /* Here we allocate the result verctor \
-  (you're gonna do it yourself in the next exercises)*/
-  x = malloc(sizeof(float) * n);
-
-
-  /******Implement the solution here******/
-  /***************************************/
-  
-  /****************************************/
-
+  long double   *x;
+  x = malloc(sizeof(long double) * n);
+  x[0]=B[0]/A[0][0];
+    for(int i=1;i<n;++i){
+        x[i]=B[i];
+        for(int j=0;j<i;++j){
+            x[i]-=A[i][j]*x[j];
+        }
+        x[i]/=A[i][i];
+    }
   return (x);
 }
 
 
 int main()
 {
-  float   A[N][N], B[N];
-  float   *x;
+  long double   A[N][N], B[N];
+  long double   *x;
   int     n;
 
   printf("Enter the size of the matrix: ");
@@ -37,7 +35,7 @@ int main()
     for(int j = 0; j < n; j++)
     {
       printf("A[%d][%d] = ", i, j);
-      scanf("%f", &A[i][j]);
+      scanf("%Lf", &A[i][j]);
     }
   }
 
@@ -46,14 +44,14 @@ int main()
   for (int i = 0; i < n; i++)
   {
     printf("B[%d] = ", i);
-    scanf("%f", &B[i]);
+    scanf("%Lf", &B[i]);
   }
 
   /* The calculation of the result */
   x = descente(A, B, n);
   
   /* Printing the results */
-  printf("\nThe resulting vector: [");
+  printf("\nThe resulting vector : [");
   for (int i = 0; i < n; i++)
-    printf("%f%c", x[i], ",]"[i == n - 1]);
+    printf("%Lf%c", x[i], ",]"[i == n - 1]);
 }

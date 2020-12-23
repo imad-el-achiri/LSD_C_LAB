@@ -2,25 +2,25 @@
 #include <stdlib.h>
 #define N 10
 
-float *remontee(float A[N][N], float B[N], int n)
+long double *remontee(long double A[N][N], long double B[N], int n)
 {
-
-  /* A hint: you cant return an array which is allocated in the stack memory. \
-  ** you may consider to create a dynamically allocated array and return a pointer to it. \
-  ** https://gribblelab.org/CBootCamp/7_Memory_Stack_vs_Heap.html
-  */
-
-  /******Implement the solution here******/
-  /***************************************/
+  long double * x=malloc(n*sizeof(long double));
+  x[n-1]=B[n-1]/A[n-1][n-1];
+    for(int i=n-2;i!=-1;--i){
+        x[i]=B[i];
+        for(int j=i+1;j<n;++j){
+            x[i]-=A[i][j]*x[j];
+        }
+        x[i]/=A[i][i];
+    }
   
-  /***************************************/
   return x;
 }
 
 int main()
 {
-  float   A[N][N], B[N];
-  float   *x;
+  long double   A[N][N], B[N];
+  long double   *x;
   int     n;
 
   printf("Enter the size of the matrix: ");
@@ -33,7 +33,7 @@ int main()
     for(int j = 0; j < n; j++)
     {
       printf("A[%d][%d] = ", i, j);
-      scanf("%f", &A[i][j]);
+      scanf("%Lf", &A[i][j]);
     }
   }
 
@@ -42,7 +42,7 @@ int main()
   for (int i = 0; i < n; i++)
   {
     printf("B[%d] = ", i);
-    scanf("%f", &B[i]);
+    scanf("%Lf", &B[i]);
   }
 
   /* The calculation of the result */
@@ -51,6 +51,5 @@ int main()
   /* Printing the results */
   printf("\nThe resulting vector: [");
   for (int i = 0; i < n; i++)
-    printf("%f%c", x[i], ",]"[i == n - 1]);
+    printf("%Lf%c", x[i], ",]"[i == n - 1]);
 }
-

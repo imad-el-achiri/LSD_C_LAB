@@ -2,33 +2,41 @@
 #include <stdlib.h>
 #define N 10
 
-float *remontee(float A[N][N], float B[N], int n)
+long double *remontee(long double A[N][N], long double B[N], int n)
 {
-
-  /******Implement the solution here******/
-  /***************************************/
-  
-  /***************************************/
+  long double * x=malloc(n*sizeof(long double));
+  x[n-1]=B[n-1]/A[n-1][n-1];
+    for(int i=n-2;i!=-1;--i){
+        x[i]=B[i];
+        for(int j=i+1;j<n;++j){
+            x[i]-=A[i][j]*x[j];
+        }
+        x[i]/=A[i][i];
+    }
   return x;
 }
 
-float *gauss(float A[N][N] ,float B[N], int n)
+long double *gauss(long double A[N][N] ,long double B[N], int n)
 {
-  /******Implement the Gaussian elimination******/
-  /**********************************************/
-  
-
-  /**********************************************/
-  /*Resolve the system using the back substitution method*/
-  /*You can use your solution of the exercice 1-b*/
+  long double coeff=0;
+    for(int k=0;k<n-1;k++){
+        for(int i=k+1;i<n;++i){
+            coeff=A[i][k]/A[k][k];
+            B[i]-=coeff*B[k];
+            for(int m=k;m<n;m++){
+                A[i][m]-=coeff*A[k][m];
+            }
+        }
+    }
+  long double * x=malloc(n*sizeof(long double));
   x = remontee(A, B, n);
   return(x);
 }
 
 int main()
 {
-  float   A[N][N], B[N];
-  float   *x;
+  long double   A[N][N], B[N];
+  long double   *x;
   int     n;
 
   printf("Enter the size of the matrix: ");
@@ -41,7 +49,7 @@ int main()
     for(int j = 0; j < n; j++)
     {
       printf("A[%d][%d] = ", i, j);
-      scanf("%f", &A[i][j]);
+      scanf("%Lf", &A[i][j]);
     }
   }
 
@@ -50,7 +58,7 @@ int main()
   for (int i = 0; i < n; i++)
   {
     printf("B[%d] = ", i);
-    scanf("%f", &B[i]);
+    scanf("%Lf", &B[i]);
   }
 
   /* The calculation of the result */
@@ -59,6 +67,5 @@ int main()
   /* Printing the results */
   printf("\nThe resulting vector: [");
   for (int i = 0; i < n; i++)
-    printf("%f%c", x[i], ",]"[i == n - 1]);
+    printf("%Lf%c", x[i], ",]"[i == n - 1]);
 }
-
