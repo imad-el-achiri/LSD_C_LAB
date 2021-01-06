@@ -43,5 +43,13 @@ unsigned nombre_necessaire(double(*f)(double),double a,double b,double Err,doubl
     return(n);
 }
 int main(){
-    printf("%u\n",nombre_necessaire(exp,0,1,0.000000000000001,simpson,exp(1)-1));
+    for(int k=-3;k>=-9;k-=3){
+        double Err=pow(10,k);
+        printf("Err=10^%d\n",k);
+        printf("Rectangle droit : %u\n",nombre_necessaire(exp,0,1,Err,rectangle_droit,exp(1)-1));
+        printf("Rectangle gauche : %u\n",nombre_necessaire(exp,0,1,Err,rectangle_gauche,exp(1)-1));
+        printf("Trapeze : %u\n",nombre_necessaire(exp,0,1,Err,trapeze,exp(1)-1));
+        printf("Simpson : %u\n",nombre_necessaire(exp,0,1,Err,simpson,exp(1)-1));
+    }
+    
 }
