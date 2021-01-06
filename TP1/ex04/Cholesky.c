@@ -26,35 +26,32 @@ long double * remontee(long double * A,long double * B, int n){
     return X;
 }
 long double * Cholesky(long double * A,long double * B,int n){
-    long double C[n*n];
+    long double C[n*n],CT[n*n];
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             C[i*n+j]=(i==j) ? 1 : 0;
+            CT[i*n+j]=(i==j) ? 1 : 0;
+            
         }
     }
     long double sum;
     for(int i=0;i<n;i++){
-        sum=0;
         for(int j=0;j<i+1;j++){
             if(i==j){
+                sum=0;
                 for(int k=0;k<i;k++){
                     sum+=C[i*n+k]*C[i*n+k];
                 }
                 C[i*n+i]=sqrt(A[i*n+i]-sum);
             }
             else{
+                sum=0;
                 for(int k=0;k<j;k++){
                     sum+=C[i*n+k]*C[j*n+k];
                 }
-                C[i*n+j]=A[i*n+j]-sqrt(A[i*n+i]-sum);
+                C[i*n+j]=A[i*n+j]-sum;
                 C[i*n+j]/=C[j*n+j];
             }
-        }
-    }
-    long double CT[n*n];
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            CT[i*n+j]=0;
         }
     }
     for(int i=0;i<n;i++){
@@ -72,8 +69,8 @@ int main()
   int     n;
   printf("Enter the size of the matrix: ");
   scanf("%d", &n);
-  long double A[n*n],B[n],*x=malloc(n*sizeof(long double));
-  /* Filling the matrix A */
+  long double *x=malloc(n*sizeof(long double));
+  /*
   printf("Filling the matrix A\n");
   for(int i = 0; i < n; i++)
   {
@@ -84,14 +81,17 @@ int main()
     }
   }
 
-  /* Filling the vector B*/
   printf("Filling the matrix B\n");
   for (int i = 0; i < n; i++)
   {
     printf("B[%d] = ", i);
     scanf("%Lf", &B[i]);
-  }
-
+  }*/
+    long double A[16]={4,-6,8,2,
+    -6,10,-15,-3,
+     8,-15,26,-1,
+     2,-3,-1,62};
+    long double B[4]={-6,6,-1,-13};
   /* The calculation of the result */
   x = Cholesky(A,B,n);
 
